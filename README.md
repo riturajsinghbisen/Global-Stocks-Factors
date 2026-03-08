@@ -2,7 +2,7 @@
 ### A Beginner's Look at Global Stock Factors Using R
 
 > Second-year project by **Rituraj Singh**  
-> B.Tech CSE (Data Science), IIIT India  
+> B.Tech CSE (Data Science), IIIT Una,Himachal Pradesh, India  
 > Contact: 24519@iiitu.ac.in
 
 ---
@@ -49,7 +49,7 @@ run individual scripts (e.g. `01_load_data.R`) .
 ---
 ## Dataset Description
 
-**File:** `data/GlobalStockFactors.csv`  
+**File:** `https://github.com/riturajsinghbisen/Global-Stocks-Factors/blob/main/GlobalStockFactors.csv`  
 **Rows:** 2,000 (100 stocks × 20 quarters)  
 **Period:** Q1 2019 – Q4 2023
 
