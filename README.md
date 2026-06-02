@@ -1,74 +1,128 @@
-# Why Do Some Stocks Do Better Than Others?
-### A Beginner's Look at Global Stock Factors Using R
+# Do Some Stocks Always Beat Others?
+### Exploring Global Stock Factors with R
 
-> Second-year project by **Rituraj Singh**  
-> B.Tech CSE (Data Science), IIIT Una,Himachal Pradesh, India  
-> Contact: 24519@iiitu.ac.in
+A data analysis project 
+
+> 🏆 **Accepted at useR! 2026 Conference — Warsaw, Poland | 6–9 July 2026**
+
+---
+
+## Overview
+
+This project explores whether simple, measurable patterns in stock data can predict
+returns. Using a dataset of 100 global companies across 9 countries and 20 quarters
+(2019–2023), it tests three classic factor investing strategies — market sensitivity,
+size, and momentum — and layers in macroeconomic variables to understand what
+drives global stock returns.
 
 ---
 
-## What This Project Is About
+## Conference
 
-This project tries to answer a simple question: **why do some stocks earn more money than others, even when they seem equally risky?**
-
-Researchers have found that a few simple patterns — called **"factors"** — can explain a lot of the difference. I tested five of these on a real dataset of 100 companies across 9 countries (Australia, Canada, China, France, Hong Kong, India, Japan, UK, USA), covering 20 quarters from 2019 to 2023.
+| | |
+|---|---|
+| **Conference** | useR! 2026 |
+| **Location** | Warsaw, Poland |
+| **Dates** | 6–9 July 2026 |
+| **Website** | https://user2026.r-project.org/ |
 
 ---
+
+## Dataset
+
+| Property | Value |
+|---|---|
+| File | `GlobalStockFactors.csv` |
+| Rows | 2,000 |
+| Companies | 100 |
+| Quarters | 20 (Q1 2019 – Q4 2023) |
+| Countries | Australia, Canada, China, France, Hong Kong, India, Japan, UK, USA |
+| Sectors | 8 |
+| Missing Values | None |
+
+---
+
 ## Key Findings
 
-| Factor | What It Measures | Annual Return |
-|--------|-----------------|---------------|
-| MKT | Stocks vs savings account | +8.92% |
-| WML (Momentum) | Recent winners vs losers | +2.64% ✅ Best |
-| RMW (Profitability) | Profitable vs weak firms | +3.29%* |
-| SMB (Size) | Small vs large companies | -1.14% ❌ |
-| HML (Value) | Cheap vs expensive stocks | -6.51%* |
+| Factor | Theory Predicts | What Data Shows | Confirmed? | Premium |
+|---|---|---|---|---|
+| Market (Beta) | Higher β → higher return | Clear upward trend | ✅ Yes | ~8.9%/yr |
+| Size (SMB) | Small beats Large | Reversed: Large wins | ❌ No | –0.54%/yr |
+| Momentum | Winners keep winning | Strongly confirmed (r = 0.32) | ✅ Yes | ~9.3%/yr |
 
-- 📈 **Momentum** had the best reward-to-risk ratio (Sharpe: 0.95)
-- 😱 **VIX (fear index)** had the strongest negative link with returns (r = −0.53)
-- 🌍 **World GDP growth** had the strongest positive link (r = +0.66)
-- 💥 COVID Q2 2020: average return hit **−11%** in a single quarter
+### Other highlights
+- VIX (fear index) had the strongest single correlation with returns (r = –0.53)
+- GDP growth was the strongest positive predictor (r = +0.662)
+- Full regression model explained **50.9% of return variance** (R² = 0.509)
+- 5 significant predictors: Beta, GDP Growth, VIX, US CPI, US Fed Rate
+
 ---
+
+## Project Structure
+├── GlobalStockFactors.csv      # Dataset
+├── 00_setup.R                  # Load libraries and data
+├── 01_summary_stats.R          # Summary statistics
+├── 02_eda_plots.R              # Exploratory data analysis plots
+├── 03_correlation.R            # Correlation analysis
+├── 04_factor_market.R          # Market factor (Beta / CAPM)
+├── 05_factor_size.R            # Size factor (SMB)
+├── 06_factor_momentum.R        # Momentum factor
+├── 07_macro_vix_gdp.R          # Macroeconomic drivers (VIX, GDP, Oil)
+├── 08_regression.R             # Multiple regression model
+└── 09_run_all.R                # Run all scripts in order
+
+---
+
 ## How to Run
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/riturajsinghbisen/Global-Stocks-Factors-r.git
-cd Global-Stocks-Factors-r
-```
-
-### 2. Install required R packages
-Open R or RStudio and run:
 ```r
-install.packages(c("dplyr", "tidyr", "ggplot2", "knitr"))
-```
-### 3. Run the full analysis
-```r
-run individual scripts (e.g. `01_load_data.R`) .
-```
----
-## Dataset Description
+# Install required packages
+install.packages(c("ggplot2", "dplyr"))
 
-**File:** `https://github.com/riturajsinghbisen/Global-Stocks-Factors/blob/main/GlobalStockFactors.csv`  
-**Rows:** 2,000 (100 stocks × 20 quarters)  
-**Period:** Q1 2019 – Q4 2023
+# Option 1 — Run everything at once
+source("09_run_all.R")
 
-| Column | Description |
-|--------|-------------|
-| `date` | Quarter start date |
-| `stock_ticker` | Stock identifier |
-| `company_name` | Company name |
-| `country` | Country of listing |
-| `region` | Asia / Americas / Europe / Oceania |
-| `sector` | Industry sector |
-| `beta` | Market sensitivity (from CAPM) |
-| `market_cap_bn` | Market value in USD billions |
-| `quarterly_return_pct` | % return for the quarter |
-| `vix` | Global fear index |
-| `us_fed_rate` | US interest rate (annual %) |
-| `world_gdp_growth` | World economic growth rate |
-| `oil_price_usd` | Oil price per barrel |
-| `gold_price_usd` | Gold price per ounce |
+# Option 2 — Run scripts individually in order
+source("00_setup.R")
+source("01_summary_stats.R")
+source("02_eda_plots.R")
+source("03_correlation.R")
+source("04_factor_market.R")
+source("05_factor_size.R")
+source("06_factor_momentum.R")
+source("07_macro_vix_gdp.R")
+source("08_regression.R")
+```
 
 ---
-*This project was submitted to useR! 2026 as a student abstract.*
+
+## Tools Used
+
+- **R** — data analysis and statistical modelling
+- **ggplot2** — all visualisations
+- **dplyr** — data manipulation
+- **Base R** — OLS regression, correlation tests, diagnostics
+
+---
+
+## Report Structure
+
+1. Abstract
+2. Introduction — What is Factor Investing?
+3. Dataset Description
+4. Exploratory Data Analysis
+5. Factor Analysis I — Market Factor (Beta) and Size (SMB)
+6. Factor Analysis II — Momentum
+7. Macroeconomic Drivers (VIX, GDP, Oil)
+8. Multiple Regression Model
+9. Summary of Findings
+10. Conclusion and Limitations
+
+---
+
+> *"The stock market is a device for transferring money from the impatient to the patient."*
+> — Warren Buffett
+
+---
+
+*Data sourced from GlobalStockFactors.csv (simulated panel dataset)*
